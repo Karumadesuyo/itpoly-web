@@ -1,47 +1,70 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import '../styles/Courses.css'; // ใส่การจัดการสไตล์ของหน้าคอร์ส
 
-const CourseWrapper = styled.section`
-  padding: 50px;
-  background-color: #f4f4f4;
-  text-align: center;
-`;
+const Courses = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
 
-const CourseTitle = styled.h2`
-  font-size: 2em;
-  margin-bottom: 20px;
-`;
+  const openModal = (fileName) => {
+    setModalContent(fileName); // กำหนดไฟล์ที่คลิก
+    setIsModalOpen(true); // เปิด Modal
+  };
 
-const CourseCard = styled.div`
-  background-color: white;
-  padding: 20px;
-  margin: 10px;
-  display: inline-block;
-  width: 250px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-`;
+  const closeModal = () => {
+    setIsModalOpen(false); // ปิด Modal
+  };
 
-const CourseSummary = () => {
+  const closeModalOnOutsideClick = (e) => {
+    if (e.target.classList.contains('modal')) {
+      closeModal();
+    }
+  };
+
   return (
-    <CourseWrapper>
-      <CourseTitle>Our Courses</CourseTitle>
-      <div>
-        <CourseCard>
-          <h3>Engineering</h3>
-          <p>Hands-on training in engineering technologies.</p>
-        </CourseCard>
-        <CourseCard>
-          <h3>Design</h3>
-          <p>Develop creative skills in design and multimedia.</p>
-        </CourseCard>
-        <CourseCard>
-          <h3>Business</h3>
-          <p>Learn the fundamentals of business and management.</p>
-        </CourseCard>
+    <div className="courses">
+      <h1>คอสของเรา</h1>
+      
+      <div className="card-container">
+        <div className="card">
+          <h2>สาขาวิชาคอมพิวเตอร์โปรแกรมเมอร์ 1</h2>
+          <p>ประเภทวิชาอุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศกลุ่มอาชีพซอฟต์แวร์และการประยุกต์.</p>
+          <button className="card-link" onClick={() => openModal('/files/PD1.pdf')}>View PDF</button>
+        </div>
+
+        <div className="card">
+          <h2>สาขาวิชาเทคโนโลยีสารสนเทศ 2</h2>
+          <p>ประเภทวิชาอุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศกลุ่มอาชีพซอฟต์แวร์และการประยุกต์.</p>
+          <button className="card-link" onClick={() => openModal('/files/PD2.pdf')}>View PDF</button>
+        </div>
+
+        <div className="card">
+          <h2>สาขาวิชาเทคโนโลยีสารสนเทศ 1</h2>
+          <p>ประเภทวิชาอุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศกลุ่มอาชีพซอฟต์แวร์และการประยุกต์.</p>
+          <button className="card-link" onClick={() => openModal('/files/PD3.pdf')}>View PDF</button>
+        </div>
+
+        <div className="card">
+          <h2>สาขาวิชาเทคโนโลยีสารสนเทศ 2</h2>
+          <p>ประเภทวิชาอุตสาหกรรมดิจิทัลและเทคโนโลยีสารสนเทศกลุ่มอาชีพซอฟต์แวร์และการประยุกต์.</p>
+          <button className="card-link" onClick={() => openModal('/files/PD4.pdf')}>View PDF</button>
+        </div>
       </div>
-    </CourseWrapper>
+
+      {/* Modal for PDF View */}
+      {isModalOpen && (
+        <div className="modal" onClick={closeModalOnOutsideClick}>
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <h2>PDF Preview</h2>
+            <iframe src={modalContent} width="100%" height="400px" title="PDF Preview"></iframe>
+            <a href={modalContent} target="_blank" rel="noopener noreferrer">
+              <button className="download-btn">Download PDF</button>
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default CourseSummary;
+export default Courses;
